@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ContadorPRO | Gestão Contábil</title>
+<style>
+:root{--bg:#0b1220;--panel:#121d30;--panel2:#17243a;--line:#26364f;--txt:#e8eef8;--muted:#91a2bb;--blue:#4387f5;--green:#22c58b;--red:#f16b78;--amber:#f5b94c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:14px Inter,system-ui,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;background:var(--blue);color:white;font-weight:650}button.secondary{background:#26364f;color:#dce7f7}button.danger{background:#6e2632}button.good{background:#176c54}.shell{display:flex;min-height:100vh}.side{width:245px;background:#0e192a;border-right:1px solid var(--line);padding:20px 14px;position:fixed;inset:0 auto 0 0;overflow:auto}.brand{font-size:18px;font-weight:800;margin:4px 8px 24px}.brand small{display:block;color:var(--muted);font-size:11px;font-weight:500;margin-top:5px}.navgroup{color:#70839e;text-transform:uppercase;font-size:10px;font-weight:800;letter-spacing:1px;margin:18px 10px 7px}.nav button{display:block;width:100%;text-align:left;background:transparent;color:#b8c7dc;padding:11px 12px;margin:3px 0;font-weight:550}.nav button.active,.nav button:hover{background:#1b3151;color:white}.main{margin-left:245px;width:calc(100% - 245px);padding:24px;max-width:1600px}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:22px}.top h1{font-size:24px;margin:0}.sub{color:var(--muted);font-size:12px;margin-top:5px}.actions{display:flex;gap:8px;flex-wrap:wrap}.grid{display:grid;gap:15px}.four{grid-template-columns:repeat(4,minmax(0,1fr))}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.panel,.metric{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}.metric .label{color:var(--muted);font-size:12px}.metric strong{display:block;font-size:25px;margin-top:9px}.green{color:var(--green)}.red{color:var(--red)}.amber{color:var(--amber)}.blue{color:#7eafff}.section{display:none}.section.active{display:block}.section h2{font-size:17px;margin:0 0 15px}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:650px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:12px}th{color:var(--muted);font-weight:700;background:#0e192a}td .mini{padding:6px 9px;font-size:11px;margin-right:4px}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}label{display:block;color:#b8c7dc;font-size:12px;margin-bottom:6px}input,select,textarea{width:100%;background:#0c1728;color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:11px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--blue)}textarea{min-height:75px;resize:vertical}.field.full{grid-column:1/-1}.formactions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}.muted{color:var(--muted)}.notice{padding:12px 14px;border:1px solid #735b2a;background:#3c3018;color:#f6d48e;border-radius:11px;font-size:12px;line-height:1.5;margin-bottom:14px}.empty{text-align:center;color:var(--muted);padding:25px}.reportline{display:flex;justify-content:space-between;padding:12px;border-bottom:1px solid var(--line)}.reportline.total{font-weight:800;background:#1b3151;border-radius:9px;margin-top:8px}.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#23334b;color:#c5d8f4;font-size:10px}.hidden{display:none!important}dialog{background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:16px;width:min(680px,94vw);padding:22px}dialog::backdrop{background:#000b}.close{float:right;background:#26364f}.footer{color:#70839e;font-size:11px;margin-top:25px;line-height:1.5}.chart{height:220px;display:flex;align-items:end;gap:14px;padding:18px 10px 5px}.barcol{flex:1;text-align:center;color:var(--muted);font-size:11px}.bar{min-height:3px;border-radius:7px 7px 0 0;background:linear-gradient(#4c91ff,#2258a8);margin:0 auto 8px;max-width:65px}.mobilehead{display:none}
+@media(max-width:900px){.side{width:205px}.main{margin-left:205px;width:calc(100% - 205px);padding:17px}.four{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.side{position:relative;width:100%;height:auto;max-height:190px;border:0;border-bottom:1px solid var(--line)}.shell{display:block}.main{margin:0;width:100%;padding:14px}.four,.two{grid-template-columns:1fr 1fr}.top{align-items:flex-start;flex-direction:column}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.brand{margin-bottom:10px}.nav{display:flex;overflow:auto;gap:4px}.navgroup{display:none}.nav button{white-space:nowrap;width:auto}.side{padding:12px}.top h1{font-size:21px}}@media print{body{background:white;color:#111}.side,.top .actions,button,.notice{display:none!important}.main{margin:0;width:100%;padding:0}.panel,.metric{background:white;color:#111;border:1px solid #aaa;break-inside:avoid}th{background:#eee;color:#111}td,th{color:#111;border-color:#ccc}.section{display:none!important}.section.active{display:block!important}}
+
+/* Módulos avançados: multi-CNPJ e documentos */
+.doc-preview{background:#fff;color:#172033;border-radius:12px;padding:28px;line-height:1.65;min-height:220px}
+.doc-preview h2{text-align:center;color:#172033;margin:0 0 22px}
+.doc-preview .doc-meta{border-bottom:1px solid #d5dbe5;padding-bottom:12px;margin-bottom:18px}
+.doc-preview p{margin:12px 0}
+.doc-preview .signature{margin-top:55px;text-align:center}
+.small-note{font-size:11px;color:var(--muted);line-height:1.5}
+.status-ok{color:#22c58b}.status-warn{color:#f5b94c}
+
+
+
+/* =========================================================
+   CONTADORPRO MASTER — IDENTIDADE VISUAL PREMIUM
+   Camada exclusivamente visual: preserva HTML funcional e JS.
+   ========================================================= */
+:root{
+ --bg:#071522;--panel:#102438;--panel2:#153149;--line:#24445a;
+ --txt:#edf7f5;--muted:#91abb7;--blue:#3988d8;--green:#20bd86;
+ --red:#f0717c;--amber:#efbd62;--navy:#071a2b;--mint:#75e0b6;
+}
+html{scroll-behavior:smooth}
+body{
+ background:radial-gradient(ellipse at 82% 8%,rgba(32,189,134,.10),transparent 27%),
+ radial-gradient(ellipse at 15% 75%,rgba(57,136,216,.10),transparent 30%),
+ linear-gradient(135deg,#071522 0%,#0a1c2c 52%,#081725 100%);
+ color:var(--txt);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+ letter-spacing:.01em;min-height:100vh;position:relative;isolation:isolate
+}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;
+ background-image:linear-gradient(rgba(126,177,190,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(126,177,190,.08) 1px,transparent 1px);
+ background-size:44px 44px;mask-image:linear-gradient(to bottom,black,transparent 88%)}
+body:after{content:"₊  R$     %       ∑       ▥       ◫";position:fixed;right:3vw;bottom:2vh;z-index:-1;pointer-events:none;
+ color:rgba(117,224,182,.055);font-size:clamp(22px,4vw,58px);font-weight:800;letter-spacing:.2em;white-space:nowrap}
+button{background:linear-gradient(135deg,#258f70,#16775f);box-shadow:0 7px 18px rgba(11,130,94,.17);transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}
+button:hover{filter:brightness(1.12);transform:translateY(-1px);box-shadow:0 9px 22px rgba(11,130,94,.23)}
+button:active{transform:translateY(0)}
+button.secondary{background:#1b3850;color:#dcecf2;box-shadow:none;border:1px solid #31536a}
+button.secondary:hover{background:#24465f}
+button.danger{background:#742f3c;box-shadow:none}
+button.good{background:linear-gradient(135deg,#168a68,#11654f)}
+.shell{min-height:100vh}
+.side{width:264px;background:linear-gradient(180deg,rgba(8,27,44,.98),rgba(7,22,36,.98));border-right:1px solid rgba(92,143,160,.22);padding:24px 15px;box-shadow:12px 0 36px rgba(0,0,0,.13);backdrop-filter:blur(16px);z-index:5}
+.brand{font-size:19px;letter-spacing:-.04em;margin:4px 10px 28px;color:#f4fbfa}
+.brand:before{content:"";display:block;width:38px;height:3px;border-radius:9px;background:linear-gradient(90deg,#21c18a,#438fe0);margin:0 0 15px}
+.brand span{color:#74ddb3!important}
+.brand small{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:#7f9ba9;margin-top:8px}
+.navgroup{color:#6e929e;font-size:9px;letter-spacing:1.5px;margin:22px 11px 8px}
+.nav button{position:relative;border:1px solid transparent;border-radius:11px;color:#a9c1cc;padding:11px 12px;margin:4px 0;font-size:12px;box-shadow:none;transition:all .18s ease}
+.nav button.active,.nav button:hover{background:linear-gradient(100deg,rgba(29,139,105,.24),rgba(38,91,133,.24));border-color:rgba(85,184,151,.22);color:#f3fffb;transform:translateX(2px)}
+.nav button.active:before{content:"";position:absolute;left:-1px;top:8px;bottom:8px;width:3px;border-radius:5px;background:#42d19a}
+.footer{border-top:1px solid rgba(92,143,160,.16);padding:15px 9px 0;color:#718d9a;font-size:10px}
+.main{margin-left:264px;width:calc(100% - 264px);max-width:1700px;padding:30px clamp(18px,2.5vw,38px)}
+.top{padding:18px 21px;margin:-5px 0 23px;background:linear-gradient(110deg,rgba(17,47,68,.82),rgba(14,37,55,.58));border:1px solid rgba(88,142,158,.2);border-radius:18px;box-shadow:0 12px 32px rgba(0,0,0,.12);backdrop-filter:blur(12px)}
+.top h1{font-size:25px;letter-spacing:-.045em;font-weight:800}
+.sub{color:#8ba9b5;font-size:11px;letter-spacing:.015em}
+.actions{gap:9px}
+.panel,.metric{background:linear-gradient(145deg,rgba(17,42,62,.96),rgba(13,33,50,.96));border:1px solid rgba(93,145,162,.2);border-radius:17px;padding:20px;box-shadow:0 12px 30px rgba(0,0,0,.12);position:relative;overflow:hidden}
+.panel:focus-within{border-color:rgba(66,177,143,.42)}
+.panel h2{font-size:15px;font-weight:750;letter-spacing:-.02em;color:#e8f5f2}
+.metric{min-height:125px;padding:20px 21px;background:linear-gradient(145deg,rgba(20,53,73,.98),rgba(13,36,54,.98))}
+.metric:after{content:"";position:absolute;width:90px;height:90px;border:1px solid rgba(111,210,176,.10);border-radius:50%;right:-27px;top:-34px;box-shadow:0 0 0 13px rgba(111,210,176,.025),0 0 0 27px rgba(111,210,176,.018)}
+.metric .label{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:#8ba9b5;font-weight:700}
+.metric strong{font-size:clamp(21px,2vw,28px);font-weight:800;letter-spacing:-.04em;margin-top:12px}
+.green{color:#55dca8}.red{color:#ff8790}.amber{color:#f2c36f}.blue{color:#79b9f4}
+.grid{gap:16px}
+.toolbar{gap:14px;margin-bottom:17px}
+.tablewrap{border:1px solid rgba(91,143,160,.16);border-radius:12px;overflow:auto}
+table{min-width:650px;border-collapse:separate;border-spacing:0;background:rgba(8,25,39,.28)}
+th{background:#142f45;color:#91b2be;text-transform:uppercase;font-size:9px;letter-spacing:.08em;padding:13px 12px;white-space:nowrap}
+td{color:#d2e3e8;font-size:11px;padding:13px 12px;border-bottom:1px solid rgba(92,143,160,.13)}
+tbody tr{transition:background .15s ease}tbody tr:hover{background:rgba(44,119,111,.10)}tbody tr:last-child td{border-bottom:0}
+td .mini{padding:7px 9px;border-radius:8px;font-size:10px}
+input,select,textarea{background:#091c2c;color:#e8f4f5;border:1px solid #29495e;border-radius:10px;padding:12px 13px;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
+input:hover,select:hover,textarea:hover{border-color:#3a6879}
+input:focus,select:focus,textarea:focus{border-color:#36bd8b;box-shadow:0 0 0 3px rgba(54,189,139,.12);background:#0b2234}
+label{font-size:10px;font-weight:700;letter-spacing:.035em;color:#a9c4ce;margin-bottom:7px}
+.formgrid{gap:14px}
+.notice{background:linear-gradient(110deg,rgba(100,75,29,.28),rgba(67,54,30,.22));border:1px solid rgba(231,181,83,.3);color:#f0d394;border-radius:12px;padding:13px 15px}
+.pill{background:rgba(52,126,115,.2);border:1px solid rgba(91,186,151,.18);color:#a9e5cc;font-weight:700;letter-spacing:.03em}
+.reportline{border-color:rgba(92,143,160,.16);color:#cfe0e5}
+.reportline.total{background:linear-gradient(100deg,rgba(25,116,91,.27),rgba(32,82,117,.25));border:1px solid rgba(76,185,143,.2);border-radius:10px}
+.chart{height:230px;gap:16px;border-radius:12px;background:linear-gradient(180deg,rgba(7,23,36,.1),rgba(7,23,36,.35));border:1px solid rgba(92,143,160,.12)}
+.bar{background:linear-gradient(180deg,#54d7a3,#208a78);box-shadow:0 0 18px rgba(51,190,142,.15)}
+.barcol{font-weight:700;color:#91adb8}
+.empty{color:#809eaa;padding:28px}
+dialog{background:linear-gradient(145deg,#112b40,#0b2032);border:1px solid #31546a;box-shadow:0 24px 80px rgba(0,0,0,.48)}
+dialog h2{color:#eaf7f3;font-size:18px;margin:8px 0 20px}
+.close{background:#1d3c52;border:1px solid #31566a}
+.doc-preview{box-shadow:0 10px 28px rgba(0,0,0,.18);border:1px solid #dce5e9}
+.small-note{color:#86a2ae}
+a{color:#82c5ee}
+#storageInfo{padding:10px 12px;border-radius:9px;background:rgba(6,22,35,.45);border:1px solid rgba(92,143,160,.13)}
+@media(max-width:1000px){.side{width:230px}.main{margin-left:230px;width:calc(100% - 230px);padding:22px 17px}}
+@media(max-width:650px){
+ .side{position:relative;width:100%;height:auto;max-height:none;padding:13px 12px 10px;background:linear-gradient(100deg,#081b2c,#0b2639);border-bottom:1px solid rgba(92,143,160,.25)}
+ .brand{font-size:17px;margin:0 7px 12px}.brand:before{display:none}.brand small{font-size:9px;margin-top:4px}
+ .nav{display:flex;overflow-x:auto;overflow-y:hidden;gap:5px;padding:2px 0 7px;scrollbar-width:thin}
+ .nav button{width:auto;flex:0 0 auto;white-space:nowrap;padding:9px 11px;font-size:11px;margin:2px 0}
+ .nav button.active:before{left:8px;right:8px;top:auto;bottom:-2px;width:auto;height:2px}
+ .main{margin:0;width:100%;padding:14px 12px 25px}
+ .top{padding:15px;margin:0 0 14px;border-radius:14px}.top h1{font-size:21px}
+ .four,.two{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .metric{min-height:105px;padding:14px}.metric strong{font-size:19px}
+ .panel{padding:14px;border-radius:14px}.grid{gap:11px}
+ .toolbar{align-items:flex-start}.toolbar h2{font-size:14px}
+ .formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}
+ .actions button{font-size:11px;padding:9px 10px}
+ .chart{gap:7px;padding:12px 6px 5px}
+ .doc-preview{padding:18px!important;font-size:12px}
+}
+@media(max-width:380px){.four,.two{grid-template-columns:1fr}.top .actions{width:100%}.top .actions button{flex:1}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+@media print{body{background:#fff!important;color:#111!important}body:before,body:after{display:none!important}.side{display:none!important}.main{margin:0!important;width:100%!important;padding:0!important}.top{background:#fff!important;color:#111!important;border:0;box-shadow:none}.panel,.metric{background:#fff!important;color:#111!important;box-shadow:none!important;border:1px solid #ccc!important}.metric .label,td,th{color:#111!important}.doc-preview{box-shadow:none!important}}
+
+
+/* Login e sincronização segura */
+#authGate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at 50% 15%,rgba(32,189,134,.16),transparent 45%),#061321}
+.auth-card{width:min(440px,100%);padding:30px;border:1px solid rgba(93,170,150,.28);border-radius:22px;background:linear-gradient(145deg,#102c40,#0b1d2e);box-shadow:0 25px 80px #0008}
+.auth-card h1{margin:0 0 8px;font-size:25px}.auth-card p{color:#9bb3bf;line-height:1.55;font-size:13px}.auth-card .field{margin:15px 0}.auth-card button{width:100%;margin-top:8px}.auth-error{color:#ff9ba5;background:#532b35;padding:10px;border-radius:9px;font-size:12px;margin-top:12px;display:none}.auth-note{font-size:11px!important;color:#7995a2!important;margin-top:18px}.cloud-state{font-size:11px;color:#8ed9b7;padding:8px 10px;border:1px solid #285b50;border-radius:9px;background:#0d2b2b}
+#authGate input{margin-top:6px}
+
+</style>
+</head>
+<body>
+<div id="authGate">
+ <div class="auth-card">
+  <div style="font-size:11px;letter-spacing:2px;color:#73d9b2;font-weight:800;margin-bottom:12px">CONTADORPRO MASTER</div>
+  <h1>Acesso ao escritório</h1>
+  <p>Entre com o e-mail e a senha cadastrados no Supabase. Os dados do escritório serão carregados e sincronizados na nuvem.</p>
+  <form id="loginForm">
+   <div class="field"><label for="loginEmail">E-mail</label><input id="loginEmail" type="email" autocomplete="username" required value="jucenildo22@gmail.com"></div>
+   <div class="field"><label for="loginPassword">Senha</label><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Digite sua senha"></div>
+   <button id="loginButton" type="submit">Entrar no ContadorPRO</button>
+  </form>
+  <div id="authError" class="auth-error"></div>
+  <p class="auth-note">Acesso restrito a usuários autorizados pelo administrador do banco de dados. Nunca compartilhe sua senha.</p>
+ </div>
+</div>
+<div class="shell" id="appShell" style="display:none">
+<aside class="side">
+<div class="brand">▦ ContadorPRO <span style="color:#6ea5ff">Master</span><small>Plataforma de gestão contábil</small></div>
+<nav class="nav">
+<div class="navgroup">Principal</div>
+<button class="active" data-tab="dashboard">▥ Visão geral</button>
+<button data-tab="empresa">▣ Dados da empresa</button>
+<button data-tab="clientes">♙ Clientes</button>
+<button data-tab="empresas">▣ Empresas / CNPJs</button>
+<div class="navgroup">Contabilidade</div>
+<button data-tab="lancamentos">⇄ Lançamentos</button>
+<button data-tab="dre">▤ DRE gerencial</button>
+<button data-tab="balanco">▥ Balanço patrimonial</button>
+<button data-tab="livros">▤ Livros e caixa</button>
+<div class="navgroup">Fiscal e pessoal</div>
+<button data-tab="tributos">▧ Tributos e guias</button>
+<button data-tab="agenda">◷ Agenda fiscal</button>
+<button data-tab="folha">♧ Folha de pagamento</button>
+<div class="navgroup">Gestão</div>
+<button data-tab="patrimonio">◇ Ativos e depreciação</button>
+<button data-tab="documentos">▤ Recibos e documentos</button>
+<button data-tab="declaracoes">▧ Declarações e modelos</button>
+<button data-tab="cobrancas">₿ Cobranças e WhatsApp</button>
+<button data-tab="backup">⚙ Backup e configurações</button>
+</nav>
+<div class="footer">Dados salvos neste navegador. Faça backups regulares. Para uso contábil oficial, valide lançamentos e apurações com profissional habilitado.</div>
+</aside>
+<main class="main">
+<header class="top"><div><h1 id="pageTitle">Visão geral</h1><div class="sub" id="companyLabel">Seu escritório em um só lugar</div></div><div class="actions"><span id="cloudState" class="cloud-state">Conectando...</span><button class="secondary" onclick="exportCSV()">Exportar lançamentos</button><button class="secondary" onclick="print()">Imprimir tela</button><button class="danger" onclick="logout()">Sair</button></div></header>
+
+<section id="dashboard" class="section active">
+<div class="grid four">
+<div class="metric"><div class="label">Receitas registradas</div><strong class="green" id="kReceita">R$ 0,00</strong></div>
+<div class="metric"><div class="label">Despesas registradas</div><strong class="red" id="kDespesa">R$ 0,00</strong></div>
+<div class="metric"><div class="label">Resultado gerencial</div><strong class="blue" id="kResultado">R$ 0,00</strong></div>
+<div class="metric"><div class="label">Clientes cadastrados</div><strong id="kClientes">0</strong></div>
+</div>
+<div class="grid two" style="margin-top:15px">
+<div class="panel"><h2>Fluxo de caixa por mês</h2><div id="chart" class="chart"></div></div>
+<div class="panel"><h2>Acesso rápido</h2><div class="grid two"><button onclick="openTab('lancamentos')">+ Lançamento</button><button class="good" onclick="openTab('clientes')">Cadastrar cliente</button><button class="secondary" onclick="openTab('tributos')">Registrar tributo</button><button class="secondary" onclick="openTab('agenda')">Nova obrigação</button></div><p class="muted" style="margin-top:18px;font-size:12px">Os indicadores são calculados com base nos registros deste sistema e no período selecionado.</p></div>
+</div>
+<div class="panel" style="margin-top:15px"><div class="toolbar"><h2 style="margin:0">Movimentações recentes</h2><button class="secondary" onclick="openTab('lancamentos')">Ver todas</button></div><div id="recentes"></div></div>
+</section>
+
+<section id="empresa" class="section"><div class="panel"><h2>Cadastro da empresa / escritório</h2><form id="companyForm"><div class="formgrid">
+<div class="field"><label>Razão social / nome</label><input name="nome" required></div><div class="field"><label>Nome fantasia</label><input name="fantasia"></div>
+<div class="field"><label>CNPJ / CPF</label><input name="doc"></div><div class="field"><label>Inscrição municipal / estadual</label><input name="inscricao"></div>
+<div class="field"><label>Regime tributário</label><select name="regime"><option>Simples Nacional</option><option>MEI</option><option>Lucro Presumido</option><option>Lucro Real</option><option>Outro</option></select></div><div class="field"><label>Alíquota efetiva estimada (%)</label><input name="aliquota" type="number" min="0" max="100" step=".01"></div>
+<div class="field"><label>Telefone</label><input name="telefone"></div><div class="field"><label>E-mail</label><input name="email" type="email"></div>
+<div class="field full"><label>Endereço</label><input name="endereco"></div></div><div class="formactions"><button type="submit">Salvar dados</button></div></form></div></section>
+
+<section id="clientes" class="section"><div class="panel"><div class="toolbar"><h2>Carteira de clientes</h2><button onclick="clientDialog()">+ Novo cliente</button></div><div class="tablewrap"><table><thead><tr><th>Cliente</th><th>Documento</th><th>Contato</th><th>Honorário mensal</th><th>Ações</th></tr></thead><tbody id="clientsTable"></tbody></table></div></div></section>
+
+<section id="lancamentos" class="section"><div class="panel"><div class="toolbar"><div><h2 style="margin:0">Lançamentos financeiros</h2><div class="sub">Registre entradas e saídas para relatórios gerenciais.</div></div><button onclick="entryDialog()">+ Novo lançamento</button></div><div class="formgrid" style="margin-bottom:14px"><div><label>Filtrar por mês</label><input id="filterMonth" type="month" onchange="renderEntries()"></div><div><label>Pesquisar descrição / categoria</label><input id="filterText" oninput="renderEntries()" placeholder="Digite para pesquisar"></div></div><div class="tablewrap"><table><thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Tipo</th><th>Conta</th><th>Valor</th><th>Ações</th></tr></thead><tbody id="entriesTable"></tbody></table></div></div></section>
+
+<section id="dre" class="section"><div class="panel"><div class="toolbar"><div><h2>DRE gerencial simplificada</h2><div class="sub">Demonstrativo estimado a partir dos lançamentos categorizados.</div></div><input id="dreMonth" type="month" style="max-width:190px" onchange="renderReports()"></div><div id="dreReport"></div><div class="notice" style="margin-top:15px">Este demonstrativo é gerencial e não substitui a DRE contábil elaborada conforme as normas aplicáveis. Configure corretamente categorias, competência e tributos com seu contador.</div></div></section>
+
+<section id="balanco" class="section"><div class="panel"><h2>Posição patrimonial gerencial</h2><p class="muted">Resumo simplificado. Cadastre saldos iniciais e atualize contas para refletir a posição real. Não é balanço societário oficial.</p><div class="formgrid" style="margin:15px 0"><div><label>Caixa e bancos (saldo atual R$)</label><input id="assetCash" type="number" step=".01"></div><div><label>Contas a receber (R$)</label><input id="assetReceivable" type="number" step=".01"></div><div><label>Estoques e outros ativos (R$)</label><input id="assetOther" type="number" step=".01"></div><div><label>Obrigações / dívidas (R$)</label><input id="liabilities" type="number" step=".01"></div></div><button onclick="saveBalance()">Salvar posição</button><div id="balanceReport" style="margin-top:18px"></div></div></section>
+
+<section id="livros" class="section"><div class="panel"><div class="toolbar"><h2>Livro caixa e diário gerencial</h2><button class="secondary" onclick="print()">Imprimir livro</button></div><p class="muted">Relação cronológica dos registros financeiros. Para escrituração oficial, é necessário plano de contas, partidas dobradas e validação profissional.</p><div id="booksTable"></div></div></section>
+
+<section id="tributos" class="section"><div class="panel"><div class="toolbar"><h2>Controle de tributos e guias</h2><button onclick="taxDialog()">+ Registrar guia / tributo</button></div><div class="notice">O sistema controla vencimentos e pagamentos, mas não calcula nem emite guias oficiais DAS, DARF ou documentos fiscais. Emita nos portais oficiais (PGDAS-D, e-CAC/Receita Federal ou prefeitura) e registre os dados aqui.</div><div class="tablewrap"><table><thead><tr><th>Tributo</th><th>Período</th><th>Vencimento</th><th>Valor</th><th>Status</th><th>Ações</th></tr></thead><tbody id="taxTable"></tbody></table></div><p style="margin-top:15px"><a href="https://www8.receita.fazenda.gov.br/SimplesNacional/" target="_blank" rel="noopener" style="color:#83b5ff">Portal do Simples Nacional</a>　<a href="https://cav.receita.fazenda.gov.br/" target="_blank" rel="noopener" style="color:#83b5ff">e-CAC Receita Federal</a></p></div></section>
+
+<section id="agenda" class="section"><div class="panel"><div class="toolbar"><h2>Agenda fiscal e obrigações</h2><button onclick="taskDialog()">+ Nova obrigação</button></div><div class="notice">Os prazos variam conforme regime, atividade, município e legislação. Cadastre e confirme as datas oficiais aplicáveis a cada cliente.</div><div class="tablewrap"><table><thead><tr><th>Obrigação</th><th>Cliente</th><th>Vencimento</th><th>Responsável</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tasksTable"></tbody></table></div></div></section>
+
+<section id="folha" class="section"><div class="panel"><h2>Folha de pagamento – estimativa</h2><div class="notice">Calculadora demonstrativa, não substitui folha oficial, eSocial, convenção coletiva, eventos variáveis ou cálculo de encargos. Confira tabelas e regras vigentes antes de pagar.</div><form id="payForm"><div class="formgrid"><div><label>Nome do colaborador</label><input name="nome" required></div><div><label>Salário bruto (R$)</label><input name="salario" type="number" min="0" step=".01" required></div><div><label>Desconto INSS (R$) – informe o valor calculado</label><input name="inss" type="number" min="0" step=".01" value="0"></div><div><label>Desconto IRRF (R$) – informe o valor calculado</label><input name="irrf" type="number" min="0" step=".01" value="0"></div><div><label>Outros descontos (R$)</label><input name="outros" type="number" min="0" step=".01" value="0"></div><div><label>Competência</label><input name="competencia" type="month" required></div></div><div class="formactions"><button type="submit">Calcular e salvar demonstrativo</button></div></form><div id="payTable" style="margin-top:18px"></div></div></section>
+
+<section id="patrimonio" class="section"><div class="panel"><div class="toolbar"><h2>Ativos imobilizados e depreciação</h2><button onclick="assetDialog()">+ Cadastrar ativo</button></div><div class="notice">A taxa e a vida útil devem seguir a política contábil e as regras fiscais aplicáveis. A depreciação abaixo é uma estimativa linear gerencial.</div><div class="tablewrap"><table><thead><tr><th>Bem</th><th>Data aquisição</th><th>Valor</th><th>Vida útil (meses)</th><th>Depreciação mensal</th><th>Valor residual estimado</th><th>Ações</th></tr></thead><tbody id="assetsTable"></tbody></table></div></div></section>
+
+<section id="documentos" class="section"><div class="panel"><h2>Recibos de pagamento</h2><form id="receiptForm"><div class="formgrid"><div><label>Nome do pagador</label><input name="cliente" required></div><div><label>CPF/CNPJ</label><input name="doc"></div><div><label>Valor (R$)</label><input name="valor" type="number" min=".01" step=".01" required></div><div><label>Data</label><input name="data" type="date" required></div><div class="field full"><label>Descrição</label><textarea name="descricao" required></textarea></div></div><div class="formactions"><button type="submit">Gerar recibo para impressão</button></div></form><div class="notice" style="margin-top:15px">Recibo não é nota fiscal. A emissão de NFS-e/NF-e depende de integração/autorização do município ou SEFAZ e certificado/requisitos aplicáveis.</div></div></section>
+
+<section id="cobrancas" class="section"><div class="panel"><h2>Mensagens de cobrança via WhatsApp</h2><div class="formgrid"><div><label>Cliente</label><input id="chargeName"></div><div><label>Telefone com DDD</label><input id="chargePhone" placeholder="5594999999999"></div><div><label>Valor (R$)</label><input id="chargeValue" type="number" step=".01"></div><div><label>Vencimento</label><input id="chargeDue" type="date"></div><div class="field full"><label>Chave PIX (opcional)</label><input id="chargePix"></div></div><div class="formactions"><button onclick="sendCharge()">Abrir WhatsApp com cobrança</button></div></div></section>
+
+
+<section id="empresas" class="section">
+  <div class="panel">
+    <div class="toolbar"><div><h2>Empresas e CNPJs da carteira</h2><div class="sub">Cadastre várias empresas vinculadas aos clientes do escritório.</div></div><button onclick="companyClientDialog()">+ Nova empresa / CNPJ</button></div>
+    <div class="notice">Este cadastro organiza a carteira multi-CNPJ no navegador. Para equipes acessando os mesmos dados em computadores diferentes, será necessária a conexão com banco de dados online e autenticação.</div>
+    <div class="tablewrap"><table><thead><tr><th>Razão social</th><th>CNPJ</th><th>Cliente responsável</th><th>Regime</th><th>Município/UF</th><th>Ações</th></tr></thead><tbody id="businessesTable"></tbody></table></div>
+  </div>
+</section>
+
+<section id="declaracoes" class="section">
+  <div class="panel">
+    <div class="toolbar"><div><h2>Central de declarações e documentos</h2><div class="sub">Gere documentos personalizados, salve o histórico e imprima ou salve em PDF.</div></div></div>
+    <div class="notice">Os modelos abaixo são documentos particulares/gerenciais. Não substituem certidões oficiais, declarações transmitidas em portais governamentais, laudos, demonstrações assinadas ou documentos que dependam de validação legal. Revise os dados e a finalidade antes de assinar.</div>
+    <form id="declarationForm">
+      <div class="formgrid">
+        <div><label>Tipo de documento</label><select id="docType" name="tipo" required>
+          <option value="faturamento">Declaração de faturamento</option>
+          <option value="rendimentos">Declaração de rendimentos</option>
+          <option value="prolabore">Declaração de pró-labore</option>
+          <option value="sem_movimento">Declaração de ausência de movimento</option>
+          <option value="honorarios">Declaração de honorários contábeis</option>
+          <option value="quitacao">Declaração de quitação</option>
+          <option value="servicos">Declaração de prestação de serviços</option>
+          <option value="vinculo">Declaração de vínculo profissional</option>
+          <option value="residencia">Declaração de endereço informado</option>
+          <option value="autorizacao">Autorização particular</option>
+          <option value="procuracao">Procuração particular (minuta)</option>
+          <option value="personalizada">Documento personalizado</option>
+        </select></div>
+        <div><label>Cliente</label><select id="docClient" name="clienteId" required></select></div>
+        <div><label>Empresa / CNPJ</label><select id="docBusiness" name="empresaId"><option value="">Selecione se aplicável</option></select></div>
+        <div><label>Período / competência</label><input name="periodo" placeholder="Ex.: janeiro a março de 2026"></div>
+        <div><label>Valor (R$), se aplicável</label><input name="valor" type="number" min="0" step=".01" placeholder="0,00"></div>
+        <div><label>Data de emissão</label><input name="data" type="date" required></div>
+        <div class="field full"><label>Finalidade / destinatário</label><input name="finalidade" placeholder="Informe a finalidade ou instituição destinatária"></div>
+        <div class="field full"><label>Informações complementares / texto livre</label><textarea name="observacoes" placeholder="Descreva fatos, condições, detalhes e ressalvas que precisam constar no documento."></textarea></div>
+        <div><label>Responsável pela emissão</label><input name="responsavel" placeholder="Nome do contador / responsável"></div>
+        <div><label>CRC (se aplicável)</label><input name="crc" placeholder="UF-000000/O-0"></div>
+      </div>
+      <div class="formactions"><button type="submit">Gerar documento</button></div>
+    </form>
+    <p class="small-note">A assinatura e o CRC só devem ser incluídos quando o profissional estiver habilitado e autorizar a emissão. Não declare fatos sem documentação comprobatória.</p>
+  </div>
+  <div class="panel" style="margin-top:15px">
+    <div class="toolbar"><h2>Pré-visualização</h2><div class="actions"><button class="secondary" onclick="printDeclaration()">Imprimir / Salvar PDF</button></div></div>
+    <div id="declarationPreview" class="doc-preview"><p style="text-align:center;color:#64748b">Preencha os dados e clique em “Gerar documento”.</p></div>
+  </div>
+  <div class="panel" style="margin-top:15px">
+    <h2>Histórico de documentos gerados</h2>
+    <div class="tablewrap"><table><thead><tr><th>Data</th><th>Documento</th><th>Cliente</th><th>Empresa/CNPJ</th><th>Ações</th></tr></thead><tbody id="documentsTable"></tbody></table></div>
+  </div>
+</section>
+
+<section id="backup" class="section"><div class="panel"><h2>Backup e configurações</h2><p class="muted">Exporte um arquivo JSON para guardar todos os registros deste navegador. Importe para restaurar um backup.</p><div class="actions" style="margin:15px 0"><button onclick="backup()">Baixar backup completo</button><label class="secondary" style="padding:10px 14px;border-radius:10px;cursor:pointer">Restaurar backup JSON<input type="file" accept="application/json" id="restoreFile" hidden onchange="restoreBackup(event)"></label><button class="danger" onclick="clearAll()">Apagar todos os dados</button></div><div class="notice">A senha de acesso e o armazenamento local do navegador não oferecem segurança de servidor. Não armazene dados pessoais sensíveis sem controles de acesso, criptografia, backups e adequação à LGPD.</div><p class="muted" id="storageInfo"></p></div></section>
+</main>
+</div>
+
+<dialog id="dlg"><button class="close" onclick="dlg.close()">Fechar</button><h2 id="dlgTitle">Cadastro</h2><form id="dlgForm"></form></dialog>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://pbwclyqepfriedahmjed.supabase.co";
+const SUPABASE_KEY="sb_publishable_OGrsnA6dqxE7FesCd58hDQ_glZ7F2LK";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let currentUser=null, cloudReady=false, saveTimer=null, saveQueue=Promise.resolve();
+const KEY='contadorpro_master_v4';
+const defaults={company:{nome:'',fantasia:'',doc:'',inscricao:'',regime:'Simples Nacional',aliquota:0,telefone:'',email:'',endereco:''},clients:[],companies:[],documents:[],entries:[],taxes:[],tasks:[],payroll:[],assets:[],balance:{cash:0,receivable:0,other:0,liabilities:0}};
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'{}');return {...structuredClone(defaults),...x,companies:Array.isArray(x.companies)?x.companies:[],documents:Array.isArray(x.documents)?x.documents:[]}}catch(e){return structuredClone(defaults)}}
+let db=load();
+function setCloudState(message,ok=true){const el=document.getElementById('cloudState');if(el){el.textContent=message;el.style.color=ok?'#8ed9b7':'#ffacb4';el.style.borderColor=ok?'#285b50':'#74404a'}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll();if(!cloudReady||!currentUser)return;clearTimeout(saveTimer);saveTimer=setTimeout(()=>{const snapshot=JSON.parse(JSON.stringify(db));saveQueue=saveQueue.then(async()=>{const {error}=await supabaseClient.from('contadorpro_dados').upsert({id:true,dados:snapshot,updated_at:new Date().toISOString(),updated_by:currentUser.id},{onConflict:'id'});if(error)throw error;setCloudState('Sincronizado na nuvem')}).catch(err=>{console.error('Falha ao sincronizar ContadorPRO:',err);setCloudState('Erro ao sincronizar — dados locais preservados',false);showAuthError('Não foi possível salvar na nuvem: '+(err.message||'verifique a conexão e as permissões.'))})},650)}
+const money=n=>(Number(n)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const val=(f,n)=>Number(f.elements[n]?.value||0);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today=()=>new Date().toISOString().slice(0,10);
+function openTab(id){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));document.getElementById('pageTitle').textContent=document.querySelector(`[data-tab="${id}"]`).textContent.trim();if(id==='balanco')renderBalance();if(id==='livros')renderBooks()}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>openTab(b.dataset.tab));
+function formFields(fields){return fields.map(([name,label,type='text',required=false,extra=''])=>`<div class="${name==='descricao'?'field full':''}"><label>${label}</label>${type==='textarea'?`<textarea name="${name}" ${required?'required':''}></textarea>`:`<input name="${name}" type="${type}" ${required?'required':''} ${extra}>`}</div>`).join('')}
+function showDialog(title,fields,onSave){dlgTitle.textContent=title;dlgForm.innerHTML=`<div class="formgrid">${formFields(fields)}</div><div class="formactions"><button type="button" class="secondary" onclick="dlg.close()">Cancelar</button><button type="submit">Salvar</button></div>`;dlgForm.onsubmit=e=>{e.preventDefault();const o=Object.fromEntries(new FormData(dlgForm));onSave(o);dlg.close()};dlg.showModal()}
+function clientDialog(i=-1){let c=db.clients[i]||{};showDialog(i<0?'Novo cliente':'Editar cliente',[['nome','Nome / razão social','text',true],['doc','CPF / CNPJ'],['telefone','Telefone'],['email','E-mail','email'],['honorario','Honorário mensal (R$)','number',false,'step=".01"']],o=>{o.honorario=+o.honorario||0;if(i<0)db.clients.push({id:Date.now(),...o});else db.clients[i]={...db.clients[i],...o};save()});}
+function entryDialog(i=-1){let x=db.entries[i]||{};showDialog(i<0?'Novo lançamento':'Editar lançamento',[['data','Data','date',true,`value="${x.data||today()}"`],['descricao','Descrição','text',true],['categoria','Categoria (vendas, serviços, salários, aluguel, impostos...)','text',true],['tipo','Tipo: Entrada ou Saída','select',true],['conta','Conta / forma de pagamento','text'],['valor','Valor (R$)','number',true,'step=".01" min=".01"']],o=>{o.valor=+o.valor;o.id=x.id||Date.now();if(i<0)db.entries.unshift(o);else db.entries[i]=o;save()});dlgForm.elements.tipo.innerHTML='<option>Entrada</option><option>Saída</option>';dlgForm.elements.tipo.value=x.tipo||'Entrada';}
+function taxDialog(){showDialog('Registrar tributo / guia',[['nome','Tributo (DAS, DARF, ISS...)','text',true],['periodo','Período de apuração','month'],['vencimento','Vencimento','date',true],['valor','Valor (R$)','number',true,'step=".01" min="0"'],['status','Status','select'],['codigo','Código / observação'] ],o=>{o.valor=+o.valor;o.id=Date.now();db.taxes.push(o);save()});dlgForm.elements.status.innerHTML='<option>Pendente</option><option>Pago</option><option>Vencido</option>';dlgForm.elements.status.value='Pendente'}
+function taskDialog(){showDialog('Nova obrigação fiscal',[['nome','Obrigação','text',true],['cliente','Cliente'],['vencimento','Vencimento','date',true],['responsavel','Responsável'],['status','Status','select']],o=>{o.id=Date.now();db.tasks.push(o);save()});dlgForm.elements.status.innerHTML='<option>Pendente</option><option>Concluída</option>'}
+function assetDialog(){showDialog('Cadastrar ativo',[['nome','Descrição do bem','text',true],['data','Data de aquisição','date',true],['valor','Valor de aquisição (R$)','number',true,'step=".01"'],['vida','Vida útil (meses)','number',true,'min="1"'],['residual','Valor residual (R$)','number',false,'step=".01"']],o=>{o.id=Date.now();o.valor=+o.valor;o.vida=Math.max(1,+o.vida);o.residual=+o.residual||0;db.assets.push(o);save()})}
+function removeFrom(k,i){if(confirm('Confirma excluir este registro?')){db[k].splice(i,1);save()}}
+function renderEntries(){let q=(document.getElementById('filterText')?.value||'').toLowerCase(),m=document.getElementById('filterMonth')?.value||'';let a=db.entries.map((x,i)=>({...x,_i:i})).filter(x=>(!m||x.data?.startsWith(m))&&(`${x.descricao} ${x.categoria}`.toLowerCase().includes(q)));entriesTable.innerHTML=a.map(x=>`<tr><td>${esc(x.data)}</td><td>${esc(x.descricao)}</td><td>${esc(x.categoria)}</td><td><span class="pill">${esc(x.tipo)}</span></td><td>${esc(x.conta||'—')}</td><td class="${x.tipo==='Entrada'?'green':'red'}">${money(x.valor)}</td><td><button class="mini secondary" onclick="entryDialog(${x._i})">Editar</button><button class="mini danger" onclick="removeFrom('entries',${x._i})">Excluir</button></td></tr>`).join('')||'<tr><td colspan="7" class="empty">Nenhum lançamento encontrado.</td></tr>'}
+function renderClients(){clientsTable.innerHTML=db.clients.map((c,i)=>`<tr><td>${esc(c.nome)}</td><td>${esc(c.doc)}</td><td>${esc(c.telefone||c.email||'—')}</td><td>${money(c.honorario)}</td><td><button class="mini secondary" onclick="clientDialog(${i})">Editar</button><button class="mini danger" onclick="removeFrom('clients',${i})">Excluir</button></td></tr>`).join('')||'<tr><td colspan="5" class="empty">Nenhum cliente cadastrado.</td></tr>'}
+function totals(arr=db.entries){return arr.reduce((a,x)=>{a[x.tipo==='Entrada'?'in':'out']+=+x.valor||0;return a},{in:0,out:0})}
+function renderDashboard(){let t=totals();kReceita.textContent=money(t.in);kDespesa.textContent=money(t.out);kResultado.textContent=money(t.in-t.out);kClientes.textContent=db.clients.length;recentes.innerHTML=db.entries.slice(0,5).map(x=>`<div class="reportline"><span>${esc(x.data)} · ${esc(x.descricao)}</span><b class="${x.tipo==='Entrada'?'green':'red'}">${money(x.valor)}</b></div>`).join('')||'<div class="empty">Sem movimentações registradas.</div>';let months=[];for(let j=5;j>=0;j--){let d=new Date();d.setMonth(d.getMonth()-j);let m=d.toISOString().slice(0,7);let a=totals(db.entries.filter(x=>x.data?.startsWith(m)));months.push({m,v:a.in-a.out})}let max=Math.max(1,...months.map(x=>Math.abs(x.v)));chart.innerHTML=months.map(x=>`<div class="barcol"><div class="bar" style="height:${Math.max(4,Math.abs(x.v)/max*155)}px;background:${x.v<0?'#d75c6b':'linear-gradient(#4c91ff,#2258a8)'}"></div>${x.m.slice(5)}</div>`).join('')}
+function renderReports(){let m=dreMonth.value||new Date().toISOString().slice(0,7),a=db.entries.filter(x=>x.data?.startsWith(m)),inc=a.filter(x=>x.tipo==='Entrada').reduce((s,x)=>s+x.valor,0),out=a.filter(x=>x.tipo==='Saída').reduce((s,x)=>s+x.valor,0),tax=inc*(+db.company.aliquota||0)/100;let costs=out;dreReport.innerHTML=[['Receita bruta',inc],['(-) Tributos estimados (alíquota configurada)',-tax],['Receita após tributos',inc-tax],['(-) Despesas registradas',-costs],['Resultado gerencial',inc-tax-costs]].map((x,i)=>`<div class="reportline ${i===4?'total':''}"><span>${x[0]}</span><b>${money(x[1])}</b></div>`).join('')}
+function saveBalance(){db.balance={cash:+assetCash.value||0,receivable:+assetReceivable.value||0,other:+assetOther.value||0,liabilities:+liabilities.value||0};save()}
+function renderBalance(){assetCash.value=db.balance.cash;assetReceivable.value=db.balance.receivable;assetOther.value=db.balance.other;liabilities.value=db.balance.liabilities;let a=db.balance.cash+db.balance.receivable+db.balance.other;balanceReport.innerHTML=`<div class="reportline"><span>Ativo total</span><b>${money(a)}</b></div><div class="reportline"><span>Passivos informados</span><b>${money(db.balance.liabilities)}</b></div><div class="reportline total"><span>Patrimônio líquido residual estimado</span><b>${money(a-db.balance.liabilities)}</b></div>`}
+function renderBooks(){booksTable.innerHTML='<div class="tablewrap"><table><thead><tr><th>Data</th><th>Histórico</th><th>Categoria</th><th>Entrada</th><th>Saída</th><th>Saldo acumulado</th></tr></thead><tbody>'+[...db.entries].sort((a,b)=>a.data.localeCompare(b.data)).reduce((s,x)=>{let v=x.tipo==='Entrada'?+x.valor:-x.valor;s.balance+=v;s.rows+=`<tr><td>${esc(x.data)}</td><td>${esc(x.descricao)}</td><td>${esc(x.categoria)}</td><td>${x.tipo==='Entrada'?money(x.valor):'—'}</td><td>${x.tipo==='Saída'?money(x.valor):'—'}</td><td>${money(s.balance)}</td></tr>`;return s},{balance:0,rows:''}).rows+'</tbody></table></div>'}
+function renderTaxes(){taxTable.innerHTML=db.taxes.map((x,i)=>`<tr><td>${esc(x.nome)}</td><td>${esc(x.periodo||'—')}</td><td>${esc(x.vencimento)}</td><td>${money(x.valor)}</td><td>${esc(x.status)}</td><td><button class="mini secondary" onclick="toggleTax(${i})">Alternar pago</button><button class="mini danger" onclick="removeFrom('taxes',${i})">Excluir</button></td></tr>`).join('')||'<tr><td colspan="6" class="empty">Nenhuma guia registrada.</td></tr>'}
+function toggleTax(i){db.taxes[i].status=db.taxes[i].status==='Pago'?'Pendente':'Pago';save()}
+function renderTasks(){tasksTable.innerHTML=db.tasks.map((x,i)=>`<tr><td>${esc(x.nome)}</td><td>${esc(x.cliente||'—')}</td><td>${esc(x.vencimento)}</td><td>${esc(x.responsavel||'—')}</td><td>${esc(x.status)}</td><td><button class="mini secondary" onclick="db.tasks[${i}].status=db.tasks[${i}].status==='Concluída'?'Pendente':'Concluída';save()">Concluir</button><button class="mini danger" onclick="removeFrom('tasks',${i})">Excluir</button></td></tr>`).join('')||'<tr><td colspan="6" class="empty">Nenhuma obrigação cadastrada.</td></tr>'}
+function renderPayroll(){payTable.innerHTML='<div class="tablewrap"><table><thead><tr><th>Colaborador</th><th>Competência</th><th>Bruto</th><th>Descontos</th><th>Líquido estimado</th><th></th></tr></thead><tbody>'+db.payroll.map((x,i)=>`<tr><td>${esc(x.nome)}</td><td>${esc(x.competencia)}</td><td>${money(x.salario)}</td><td>${money(x.inss+x.irrf+x.outros)}</td><td>${money(x.salario-x.inss-x.irrf-x.outros)}</td><td><button class="mini danger" onclick="removeFrom('payroll',${i})">Excluir</button></td></tr>`).join('')+'</tbody></table></div>'}
+function renderAssets(){assetsTable.innerHTML=db.assets.map((x,i)=>{let dep=Math.max(0,(x.valor-x.residual)/x.vida),months=Math.max(0,Math.floor((Date.now()-new Date(x.data+'T00:00:00'))/(30.4375*86400000))),book=Math.max(x.residual,x.valor-dep*Math.min(months,x.vida));return `<tr><td>${esc(x.nome)}</td><td>${esc(x.data)}</td><td>${money(x.valor)}</td><td>${x.vida}</td><td>${money(dep)}</td><td>${money(book)}</td><td><button class="mini danger" onclick="removeFrom('assets',${i})">Excluir</button></td></tr>`}).join('')||'<tr><td colspan="7" class="empty">Nenhum ativo cadastrado.</td></tr>'}
+
+function companyClientDialog(i=-1){
+  const x=db.companies[i]||{};
+  const clientOptions=db.clients.map(c=>`<option value="${c.id}" ${String(c.id)===String(x.clienteId)?'selected':''}>${esc(c.nome)}</option>`).join('');
+  showDialog(i<0?'Cadastrar empresa / CNPJ':'Editar empresa / CNPJ',[
+    ['razao','Razão social','text',true],['fantasia','Nome fantasia'],['cnpj','CNPJ','text',true],
+    ['regime','Regime tributário'],['municipio','Município / UF'],['inscricao','Inscrição estadual / municipal'],
+    ['atividade','Atividade principal'],['email','E-mail','email'],['telefone','Telefone']
+  ],o=>{
+    o.id=x.id||Date.now();o.clienteId=x.clienteId||'';
+    if(i<0)db.companies.push(o);else db.companies[i]={...db.companies[i],...o};
+    save();
+  });
+  const wrap=document.createElement('div');wrap.innerHTML=`<label>Cliente responsável</label><select name="clienteId"><option value="">Sem vínculo</option>${clientOptions}</select>`;
+  dlgForm.querySelector('.formgrid').appendChild(wrap);
+  if(dlgForm.elements.clienteId)dlgForm.elements.clienteId.value=x.clienteId||'';
+  dlgForm.onsubmit=e=>{e.preventDefault();const o=Object.fromEntries(new FormData(dlgForm));o.id=x.id||Date.now();if(i<0)db.companies.push(o);else db.companies[i]={...db.companies[i],...o};save();dlg.close()};
+}
+function renderBusinesses(){
+  businessesTable.innerHTML=db.companies.map((x,i)=>{const c=db.clients.find(y=>String(y.id)===String(x.clienteId));return `<tr><td>${esc(x.razao)}</td><td>${esc(x.cnpj)}</td><td>${esc(c?.nome||'—')}</td><td>${esc(x.regime||'—')}</td><td>${esc(x.municipio||'—')}</td><td><button class="mini secondary" onclick="companyClientDialog(${i})">Editar</button><button class="mini danger" onclick="removeFrom('companies',${i})">Excluir</button></td></tr>`}).join('')||'<tr><td colspan="6" class="empty">Nenhuma empresa/CNPJ cadastrado.</td></tr>';
+}
+const docTitles={faturamento:'DECLARAÇÃO DE FATURAMENTO',rendimentos:'DECLARAÇÃO DE RENDIMENTOS',prolabore:'DECLARAÇÃO DE PRÓ-LABORE',sem_movimento:'DECLARAÇÃO DE AUSÊNCIA DE MOVIMENTO',honorarios:'DECLARAÇÃO DE HONORÁRIOS CONTÁBEIS',quitacao:'DECLARAÇÃO DE QUITAÇÃO',servicos:'DECLARAÇÃO DE PRESTAÇÃO DE SERVIÇOS',vinculo:'DECLARAÇÃO DE VÍNCULO PROFISSIONAL',residencia:'DECLARAÇÃO DE ENDEREÇO INFORMADO',autorizacao:'AUTORIZAÇÃO PARTICULAR',procuracao:'MINUTA DE PROCURAÇÃO PARTICULAR',personalizada:'DOCUMENTO PERSONALIZADO'};
+function fillDocSelects(){
+  const c=docClient.value;docClient.innerHTML='<option value="">Selecione um cliente</option>'+db.clients.map(x=>`<option value="${x.id}">${esc(x.nome)} — ${esc(x.doc||'')}</option>`).join('');docClient.value=c;
+  const b=docBusiness.value;docBusiness.innerHTML='<option value="">Selecione se aplicável</option>'+db.companies.map(x=>`<option value="${x.id}">${esc(x.razao)} — ${esc(x.cnpj)}</option>`).join('');docBusiness.value=b;
+}
+function declarationBody(o,client,business){
+  const nome=esc(client?.nome||'não informado'),doc=esc(client?.doc||'não informado'),empresa=esc(business?.razao||client?.nome||''),cnpj=esc(business?.cnpj||client?.doc||'não informado'),periodo=esc(o.periodo||'período não especificado'),valor=o.valor?money(o.valor):'não informado',finalidade=esc(o.finalidade||'não especificada'),obs=esc(o.observacoes||'');
+  const intro={
+    faturamento:`Para os devidos fins, declara-se que ${empresa}, inscrita no CNPJ sob nº ${cnpj}, apresentou faturamento no período de ${periodo}, no valor informado de ${valor}, conforme registros e documentos disponibilizados para conferência.`,
+    rendimentos:`Para os devidos fins, registra-se que ${nome}, documento ${doc}, declarou rendimentos no período de ${periodo}, no valor informado de ${valor}, conforme documentação apresentada e sujeita à conferência.`,
+    prolabore:`Para os devidos fins, registra-se o pró-labore informado de ${valor} para ${nome}, referente a ${periodo}, sujeito à validação com os registros contábeis, previdenciários e fiscais correspondentes.`,
+    sem_movimento:`Declara-se, com base nas informações e documentos disponibilizados pelo interessado, que não foram informadas movimentações no período de ${periodo} para ${empresa}, CNPJ ${cnpj}. Esta declaração não substitui obrigações acessórias sem movimento nem recibos de transmissão oficiais.`,
+    honorarios:`Declara-se que os honorários contábeis informados para ${nome} são de ${valor}, referentes a ${periodo}, conforme relação contratual ou registros do escritório.`,
+    quitacao:`Registra-se a quitação informada no valor de ${valor}, referente a ${obs||'obrigação descrita pelo interessado'}, em favor de ${nome}. A emissão deve ser conferida com o comprovante correspondente.`,
+    servicos:`Declara-se, conforme informações fornecidas, que ${nome} prestou serviços relacionados a ${obs||'atividade a especificar'}, no período de ${periodo}.`,
+    vinculo:`Declara-se, conforme documentos apresentados, a relação profissional informada entre ${nome} e ${empresa}, no período de ${periodo}. Esta minuta não comprova vínculo empregatício por si só.`,
+    residencia:`O interessado ${nome}, documento ${doc}, informa como endereço: ${obs||'endereço não informado'}. Esta declaração reproduz informação prestada pelo declarante e não constitui comprovante oficial de residência.`,
+    autorizacao:`Pelo presente instrumento particular, ${nome}, documento ${doc}, autoriza ${obs||'a pessoa autorizada e os poderes concedidos devem ser descritos neste campo'}, para a finalidade de ${finalidade}.`,
+    procuracao:`Pelo presente instrumento particular, ${nome}, documento ${doc}, nomeia como procurador(a) a pessoa indicada em “informações complementares”, conferindo os poderes ali descritos para a finalidade de ${finalidade}. Esta é apenas uma minuta e pode exigir reconhecimento de firma, poderes específicos ou formalização própria perante o órgão destinatário.`,
+    personalizada:obs||'Descreva neste documento os fatos e declarações que deseja formalizar.'
+  };
+  return intro[o.tipo]||intro.personalizada;
+}
+function buildDeclaration(o,saveIt=true){
+  const client=db.clients.find(x=>String(x.id)===String(o.clienteId));
+  const business=db.companies.find(x=>String(x.id)===String(o.empresaId));
+  const office=db.company;
+  const title=docTitles[o.tipo]||'DOCUMENTO';
+  const body=declarationBody(o,client,business);
+  const docHtml=`<div class="doc-meta"><strong>${esc(office.nome||'ESCRITÓRIO CONTÁBIL')}</strong><br>${esc(office.doc||'')} ${office.endereco?' · '+esc(office.endereco):''}<br><small>${esc(office.email||'')} ${office.telefone?' · '+esc(office.telefone):''}</small></div><h2>${title}</h2><p><strong>Interessado:</strong> ${esc(client?.nome||'')} · <strong>CPF/CNPJ:</strong> ${esc(client?.doc||'')}</p>${business?`<p><strong>Empresa:</strong> ${esc(business.razao)} · <strong>CNPJ:</strong> ${esc(business.cnpj)}</p>`:''}<p><strong>Período:</strong> ${esc(o.periodo||'Não informado')} ${o.valor?` · <strong>Valor:</strong> ${money(o.valor)}`:''}</p><p>${body}</p>${o.finalidade?`<p><strong>Finalidade:</strong> ${esc(o.finalidade)}</p>`:''}${o.observacoes&&o.tipo!=='personalizada'?`<p><strong>Observações:</strong> ${esc(o.observacoes)}</p>`:''}<p>Documento emitido em ${esc(o.data||today())}.</p><div class="signature">________________________________________<br>${esc(o.responsavel||office.nome||'Responsável pela emissão')}<br>${o.crc?'CRC: '+esc(o.crc):'Assinatura do responsável'}</div><p style="font-size:10px;color:#64748b;margin-top:28px">Documento gerado a partir das informações cadastradas. Confira dados, documentos comprobatórios, finalidade e requisitos legais antes de assinar ou apresentar a terceiros.</p>`;
+  declarationPreview.innerHTML=docHtml;
+  if(saveIt){o.id=Date.now();o.titulo=title;o.clienteNome=client?.nome||'';o.empresaNome=business?.razao||'';db.documents.unshift(o);save();}
+}
+declarationForm.onsubmit=e=>{e.preventDefault();const o=Object.fromEntries(new FormData(declarationForm));o.valor=+o.valor||0;buildDeclaration(o,true);renderDocuments()};
+function renderDocuments(){documentsTable.innerHTML=db.documents.map((x,i)=>`<tr><td>${esc(x.data||'')}</td><td>${esc(x.titulo||docTitles[x.tipo]||x.tipo)}</td><td>${esc(x.clienteNome||'')}</td><td>${esc(x.empresaNome||'—')}</td><td><button class="mini secondary" onclick="reopenDocument(${i})">Visualizar</button><button class="mini danger" onclick="removeFrom('documents',${i})">Excluir</button></td></tr>`).join('')||'<tr><td colspan="5" class="empty">Nenhum documento gerado.</td></tr>'}
+function reopenDocument(i){const x=db.documents[i];if(x)buildDeclaration(x,false)}
+function printDeclaration(){
+  const content=declarationPreview.innerHTML;if(!content||content.includes('Preencha os dados')){alert('Gere um documento antes de imprimir.');return}
+  const w=window.open('','_blank');if(!w){alert('Permita pop-ups para imprimir ou salvar em PDF.');return}
+  w.document.write(`<html lang="pt-BR"><meta charset="utf-8"><title>Documento Contábil</title><style>body{font:14px Arial;color:#172033;padding:35px;line-height:1.65}.doc-meta{border-bottom:1px solid #ccc;padding-bottom:12px}h2{text-align:center;margin:25px 0}p{margin:13px 0}.signature{text-align:center;margin-top:60px}small{color:#555}@media print{body{padding:15mm}}</style>${content}<script>window.onload=()=>window.print()<\/script></html>`);w.document.close();
+}
+
+function renderAll(){renderDashboard();renderEntries();renderClients();renderReports();renderTaxes();renderTasks();renderPayroll();renderAssets();renderBusinesses();fillDocSelects();renderDocuments();companyLabel.textContent=db.company.nome||'Configure os dados da empresa';storageInfo.textContent=`Registros locais: ${db.entries.length} lançamentos, ${db.clients.length} clientes, ${db.companies.length} empresas/CNPJs, ${db.documents.length} documentos.`}
+companyForm.onsubmit=e=>{e.preventDefault();db.company=Object.fromEntries(new FormData(companyForm));save();alert('Dados da empresa salvos.')};
+function fillCompany(){Object.entries(db.company).forEach(([k,v])=>{if(companyForm.elements[k])companyForm.elements[k].value=v})}
+payForm.onsubmit=e=>{e.preventDefault();let o=Object.fromEntries(new FormData(payForm));['salario','inss','irrf','outros'].forEach(k=>o[k]=+o[k]||0);db.payroll.push(o);payForm.reset();save()};
+receiptForm.onsubmit=e=>{e.preventDefault();let o=Object.fromEntries(new FormData(receiptForm));let w=window.open('','_blank');if(!w){alert('Permita pop-ups para gerar o recibo.');return}w.document.write(`<html><meta charset="utf-8"><title>Recibo</title><style>body{font:16px Arial;padding:45px;color:#111}.box{border:2px solid #333;padding:35px;max-width:750px;margin:auto}h1{text-align:center}p{line-height:1.7}.value{font-size:24px;font-weight:bold}</style><div class="box"><h1>RECIBO DE PAGAMENTO</h1><p>Recebemos de <b>${esc(o.cliente)}</b>, documento ${esc(o.doc||'não informado')}, a quantia de:</p><p class="value">${money(o.valor)}</p><p>Referente a: ${esc(o.descricao)}</p><p>Data: ${esc(o.data)}</p><br><br><p style="text-align:center">__________________________________<br>Assinatura do responsável</p><p>${esc(db.company.nome||'')}</p></div><script>window.print()<\/script></html>`);w.document.close()};
+function sendCharge(){let phone=chargePhone.value.replace(/\D/g,'');if(phone.length<10){alert('Informe telefone com DDD e código do país.');return}let msg=`Olá, ${chargeName.value||'tudo bem'}! Passando para lembrar do pagamento de ${money(chargeValue.value)} com vencimento em ${chargeDue.value||'data combinada'}.${chargePix.value?' Chave PIX: '+chargePix.value:''} Obrigado!`;window.open('https://wa.me/'+phone+'?text='+encodeURIComponent(msg),'_blank')}
+function backup(){let b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='backup-contadorpro-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)}
+function restoreBackup(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.company||!Array.isArray(x.entries))throw Error();db={...structuredClone(defaults),...x,companies:Array.isArray(x.companies)?x.companies:[],documents:Array.isArray(x.documents)?x.documents:[]};save();fillCompany();alert('Backup restaurado.')}catch(err){alert('Arquivo inválido ou incompatível.')}};r.readAsText(f)}
+function exportCSV(){let rows=[['Data','Descrição','Categoria','Tipo','Conta','Valor'],...db.entries.map(x=>[x.data,x.descricao,x.categoria,x.tipo,x.conta,x.valor])];let csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\n'),b=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='lancamentos-contadorpro.csv';a.click();URL.revokeObjectURL(a.href)}
+function clearAll(){if(confirm('Isso apagará permanentemente os dados locais deste sistema. Faça backup antes. Continuar?')){localStorage.removeItem(KEY);db=structuredClone(defaults);fillCompany();save()}}
+function init(){fillCompany();dreMonth.value=new Date().toISOString().slice(0,7);declarationForm.elements.data.value=today();renderAll();renderBalance()}
+async function showApplication(user){
+ currentUser=user;
+ const {data:access,error:accessError}=await supabaseClient.from('contadorpro_acessos').select('user_id').eq('user_id',user.id).maybeSingle();
+ if(accessError||!access){await supabaseClient.auth.signOut();currentUser=null;document.getElementById('authGate').style.display='flex';document.getElementById('appShell').style.display='none';showAuthError('Esta conta ainda não está autorizada para acessar o ContadorPRO. Confira o cadastro em contadorpro_acessos no Supabase.');return}
+ setCloudState('Carregando dados...');
+ const {data:remote,error}=await supabaseClient.from('contadorpro_dados').select('dados').eq('id',true).maybeSingle();
+ if(error){showAuthError('Erro ao carregar os dados: '+error.message);setCloudState('Falha na conexão',false);return}
+ if(remote&&remote.dados&&typeof remote.dados==='object'){
+  const x=remote.dados;db={...structuredClone(defaults),...x,companies:Array.isArray(x.companies)?x.companies:[],documents:Array.isArray(x.documents)?x.documents:[]};
+ }else{
+  // Primeira entrada: migra automaticamente os dados que já estavam salvos neste navegador.
+  db=load();
+  const {error:insertError}=await supabaseClient.from('contadorpro_dados').upsert({id:true,dados:db,updated_at:new Date().toISOString(),updated_by:user.id},{onConflict:'id'});
+  if(insertError){showAuthError('Não foi possível inicializar o banco: '+insertError.message);setCloudState('Falha ao iniciar',false);return}
+ }
+ localStorage.setItem(KEY,JSON.stringify(db));cloudReady=true;
+ document.getElementById('authGate').style.display='none';document.getElementById('appShell').style.display='flex';
+ init();setCloudState('Conectado e sincronizado');
+}
+function showAuthError(message){const el=document.getElementById('authError');if(el){el.textContent=message;el.style.display='block'}}
+document.getElementById('loginForm').addEventListener('submit',async e=>{e.preventDefault();const btn=document.getElementById('loginButton');btn.disabled=true;btn.textContent='Verificando acesso...';document.getElementById('authError').style.display='none';try{const email=document.getElementById('loginEmail').value.trim();const password=document.getElementById('loginPassword').value;const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});if(error)throw error;await showApplication(data.user)}catch(err){showAuthError(err.message||'Não foi possível entrar.');}finally{btn.disabled=false;btn.textContent='Entrar no ContadorPRO'}});
+async function logout(){if(!confirm('Deseja sair do ContadorPRO?'))return;cloudReady=false;currentUser=null;await supabaseClient.auth.signOut();document.getElementById('appShell').style.display='none';document.getElementById('authGate').style.display='flex';document.getElementById('loginPassword').value='';setCloudState('Desconectado')}
+async function boot(){try{const {data,error}=await supabaseClient.auth.getSession();if(error)throw error;if(data.session){await showApplication(data.session.user)}}catch(err){showAuthError('Não foi possível iniciar a conexão: '+err.message)}}
+boot();
+</script>
+</body></html>
